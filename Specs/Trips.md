@@ -109,7 +109,7 @@ Define the structure, categorisation, and content model for all adventure travel
 | trip_id           | FK → trips    |                                    |
 | model             | string        | e.g. "Royal Enfield Himalayan 411" |
 | engine_cc         | integer       | e.g. 411                           |
-| price_per_day_usd | decimal(10,2) | Rental cost per day                |
+| price_per_day_npr | decimal(10,2) | Rental cost per day                |
 | is_available      | boolean       | default true                       |
 | sort_order        | integer       | Display order in rental selector   |
 
