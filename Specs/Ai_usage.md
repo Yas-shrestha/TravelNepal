@@ -12,7 +12,7 @@ This document tracks all AI tool usage throughout the TravelNepal project, cover
 
 ### Prompts Used
 
-**Prompt 1:**
+**Prompt:**
 
 > "I am building a full-stack travel booking website for a Nepali adventure company using Laravel, FilamentPHP, and Blade/Livewire. Help me write a detailed spec file for the trips feature. It should cover: purpose, user stories, data model with column types, relationships, and acceptance criteria. Include realistic Nepal trip examples in the seed data section."
 
@@ -28,6 +28,13 @@ Reviewed Trip Added visitor prespective such as esteem cost,major attraction wit
 Reviewed and added "Book Now" that pre-fills both trip and package in the popup ,so visitor have easy access on form, added about us page,FAQs page added
 
 In other pages Reviewed and tweak most of the details through ai so it aligns with tips and pages
----
+
+## <!-- many other prompts used to refine the spec so it goes aligns with developer motive -->
+
+## Phase 2 — ui prototyping with Ai tools
+
+**Tool Used:** Google Ai Studio (Google Ai Studio)
+
+Prompts and Details in **method.md** inside **/Design/Method** Directory
 
 _This document was maintained throughout the project and reflects honest usage. All AI-generated content was reviewed, tested, and refined before inclusion in the final build._
