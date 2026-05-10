@@ -5,6 +5,11 @@ namespace App\Filament\Resources\Trips;
 use App\Filament\Resources\Trips\Pages\CreateTrip;
 use App\Filament\Resources\Trips\Pages\EditTrip;
 use App\Filament\Resources\Trips\Pages\ListTrips;
+use App\Filament\Resources\Trips\RelationManagers\BikeRentalsRelationManager;
+use App\Filament\Resources\Trips\RelationManagers\ItineraryDaysRelationManager;
+use App\Filament\Resources\Trips\RelationManagers\TripFaqsRelationManager;
+use App\Filament\Resources\Trips\RelationManagers\TripAttractionsRelationManager;
+use App\Filament\Resources\Trips\RelationManagers\TripImagesRelationManager;
 use App\Filament\Resources\Trips\Schemas\TripForm;
 use App\Filament\Resources\Trips\Tables\TripsTable;
 use App\Models\Trip;
@@ -34,7 +39,13 @@ class TripResource extends Resource
 
     public static function getRelations(): array
     {
-        return [];
+        return [
+            ItineraryDaysRelationManager::class,
+            TripAttractionsRelationManager::class,
+            TripImagesRelationManager::class,
+            TripFaqsRelationManager::class,
+            BikeRentalsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array
