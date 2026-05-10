@@ -21,9 +21,13 @@ This document tracks all AI tool usage throughout the TravelNepal project, cover
 **What I accepted:** The overall structure, data model columns, and acceptance criteria checklist format.
 **What I changed:**
 
-**Trip.md**
-Reviewed Trip Added visitor prespective such as esteem cost,major attraction with image,testimonials,booking and so on,added motorcycle trip as per refrence,added feature `requires_bike = true` if the booking person is foreign and need bike, they need to fill in license detail so they can book.Renting bike = extra cost .
+**Trips.md**
+Reviewed Trip Added visitor prespective such as esteem cost,major attraction with image,testimonials,booking and so on,added motorcycle trip as per refrence,added feature `requires_bike = true` if the booking person is foreign and need bike, they need to fill in license detail so they can book.Renting bike = extra cost .Trip FAQs added
 
+**Pages.md**
+Reviewed and added "Book Now" that pre-fills both trip and package in the popup ,so visitor have easy access on form, added about us page,FAQs page added
+
+In other pages Reviewed and tweak most of the details through ai so it aligns with tips and pages
 ---
 
 _This document was maintained throughout the project and reflects honest usage. All AI-generated content was reviewed, tested, and refined before inclusion in the final build._
