@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             FaqSeeder::class,
             SettingSeeder::class,
             TestimonialSeeder::class,
+            EnquirySeeder::class,
         ]);
 
         User::query()->firstOrCreate(
