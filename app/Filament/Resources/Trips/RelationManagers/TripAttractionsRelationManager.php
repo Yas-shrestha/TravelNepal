@@ -25,7 +25,7 @@ class TripAttractionsRelationManager extends RelationManager
         return $schema
             ->components([
                 Section::make('Attraction')
-                    ->columns(2)
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('name')
                             ->required()

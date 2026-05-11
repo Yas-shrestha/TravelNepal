@@ -23,7 +23,7 @@ class ItineraryDaysRelationManager extends RelationManager
         return $schema
             ->components([
                 Section::make('Itinerary Day')
-                    ->columns(2)
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('day_number')
                             ->required()

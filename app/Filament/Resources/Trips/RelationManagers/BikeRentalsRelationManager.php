@@ -24,7 +24,7 @@ class BikeRentalsRelationManager extends RelationManager
         return $schema
             ->components([
                 Section::make('Bike Rental')
-                    ->columns(2)
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('model')
                             ->required()

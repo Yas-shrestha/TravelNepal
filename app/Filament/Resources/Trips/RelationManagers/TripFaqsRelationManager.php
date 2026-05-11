@@ -23,6 +23,7 @@ class TripFaqsRelationManager extends RelationManager
         return $schema
             ->components([
                 Section::make('Trip FAQ')
+                    ->columnSpanFull()
                     ->schema([
                         TextInput::make('question')
                             ->required(),

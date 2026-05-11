@@ -24,7 +24,7 @@ class TripImagesRelationManager extends RelationManager
         return $schema
             ->components([
                 Section::make('Gallery Image')
-                    ->columns(2)
+                    ->columnSpanFull()
                     ->schema([
                         FileUpload::make('image_path')
                             ->required()
