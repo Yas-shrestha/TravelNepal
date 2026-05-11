@@ -49,19 +49,22 @@ class BookingForm
                 Section::make('Package')
                     ->columns(2)
                     ->schema([
-                        TextInput::make('trip.title')
+                        TextInput::make('trip_title')
                             ->label('Trip')
+                            ->formatStateUsing(fn($record) => $record?->trip?->title)
                             ->disabled()
                             ->dehydrated(false),
 
-                        TextInput::make('package.tier')
+                        TextInput::make('package_tier')
                             ->label('Package Tier')
+                            ->formatStateUsing(fn($record) => ucfirst($record?->package?->tier))
                             ->disabled()
                             ->dehydrated(false),
 
-                        TextInput::make('package.price_usd')
+                        TextInput::make('package_price')
                             ->label('Package Price')
                             ->prefix('$')
+                            ->formatStateUsing(fn($record) => $record?->package?->price_usd)
                             ->disabled()
                             ->dehydrated(false),
                     ]),
@@ -71,6 +74,7 @@ class BookingForm
                     ->visible(fn($record): bool => $record !== null && $record->has_license !== null)
                     ->schema([
                         TextInput::make('has_license')
+                            ->formatStateUsing(fn($state) => $state ? 'Yes' : 'No')
                             ->disabled()
                             ->dehydrated(false),
 
@@ -83,6 +87,7 @@ class BookingForm
                             ->dehydrated(false),
 
                         TextInput::make('license_type')
+                            ->formatStateUsing(fn($state) => ucfirst($state))
                             ->disabled()
                             ->dehydrated(false),
 
@@ -95,6 +100,8 @@ class BookingForm
                             ->columnSpanFull(),
 
                         TextInput::make('has_own_bike')
+                            ->label('Has Own Bike')
+                            ->formatStateUsing(fn($state) => $state ? 'Yes' : 'No')
                             ->disabled()
                             ->dehydrated(false),
 
@@ -111,6 +118,7 @@ class BookingForm
                             ->preload(),
 
                         TextInput::make('rental_cost_usd')
+                            ->label('Rental Cost')
                             ->prefix('$')
                             ->disabled()
                             ->dehydrated(false),
@@ -120,13 +128,13 @@ class BookingForm
                     ->schema([
                         Select::make('status')
                             ->options([
-                                'pending' => 'Pending',
+                                'pending'   => 'Pending',
                                 'confirmed' => 'Confirmed',
                                 'cancelled' => 'Cancelled',
                             ])
                             ->required()
-                            ->disabled(fn(): bool => ! self::isSuperAdmin()),
-                    ])
+                            ->disabled(fn(): bool => !self::isSuperAdmin()),
+                    ]),
             ]);
     }
 

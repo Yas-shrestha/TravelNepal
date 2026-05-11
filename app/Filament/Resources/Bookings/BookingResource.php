@@ -13,6 +13,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Table;
 use UnitEnum;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
 
 class BookingResource extends Resource
 {
@@ -48,5 +49,10 @@ class BookingResource extends Resource
             'index' => ListBookings::route('/'),
             'edit' => EditBooking::route('/{record}/edit'),
         ];
+    }
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with(['trip', 'package', 'rentalBike']);
     }
 }

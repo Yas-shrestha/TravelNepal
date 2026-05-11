@@ -186,6 +186,63 @@ Overall layout structure, colour palette application, card component patterns, a
 
 ---
 
+**Prompt 8 — BookingResource:**
+
+> "Create a BookingResource in Filament v5 with read-only booking details,
+> package info, motorbike license section (visible only when has_license
+> is not null), and status management. Only Super Admin can confirm or
+> cancel bookings."
+
+**What I accepted:** Overall structure, isSuperAdmin() helper,
+confirm/cancel actions with notification, motorbike section visibility logic.
+
+**What I changed:**
+
+- Fixed navigationIcon to use Heroicon enum instead of string
+- Changed Status section from hidden to disabled for non-super-admins
+- Fixed Package section fields — replaced ->default() with
+  ->formatStateUsing() since default() only works on create forms not edit
+- Added human readable formatting for has_license, has_own_bike,
+  license_type (Yes/No instead of 1/0)
+- Added eager loading via getEloquentQuery() to prevent N+1 on
+  trip, package, rentalBike relationships
+- Fixed getEloquentQuery() visibility from protected to public
+  to match parent class signature
+
+---
+
+    **Prompt 9 — Seeders:**
+
+    > "Create Laravel seeders for TravelNepal with realistic Nepal data:
+    > CategorySeeder (5 categories), TripSeeder (14 trips with real Nepal
+    > locations, altitudes, distances), PackageSeeder (3 tiers per trip
+    > with realistic USD pricing), FaqSeeder (8 global FAQs),
+    > SettingSeeder (site config), TestimonialSeeder (5 approved reviews),
+    > BookingSeeder (10 bookings mix of motorbike and trekking with
+    > license details)"
+
+**What I accepted:** Overall seeder structure, trip descriptions,
+testimonial quotes, FAQ content.
+
+**What I changed:**
+
+- Verified Nepal altitude figures (EBC = 5,364m not 6,000m)
+- Corrected route distances for motorbike trips
+- Adjusted pricing to realistic Nepal market rates
+- Fixed booking seeder to correctly calculate rental_cost_usd
+  as price_per_day_usd × duration_days
+
+**What was missed and fixed:**
+
+- role column on users table was not in original spec — discovered
+  when testing BookingResource confirm/cancel buttons which rely on
+  isSuperAdmin() check. Added migration and updated User model fillable.
+- BookingResource Package section fields were empty — ->default()
+  does not work on edit forms in Filament, replaced with
+  ->formatStateUsing() to correctly load relationship data.
+
+---
+
 ## Reflection (Updated as project progresses)
 
 ### Where AI helped most
