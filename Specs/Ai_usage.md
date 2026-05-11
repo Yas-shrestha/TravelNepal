@@ -211,7 +211,7 @@ confirm/cancel actions with notification, motorbike section visibility logic.
 
 ---
 
-    **Prompt 9 — Seeders:**
+**Prompt 9 — Seeders:**
 
     > "Create Laravel seeders for TravelNepal with realistic Nepal data:
     > CategorySeeder (5 categories), TripSeeder (14 trips with real Nepal
@@ -240,6 +240,28 @@ testimonial quotes, FAQ content.
 - BookingResource Package section fields were empty — ->default()
   does not work on edit forms in Filament, replaced with
   ->formatStateUsing() to correctly load relationship data.
+
+---
+
+**Prompt 10 — EnquiryResource:**
+
+> "Create an EnquiryResource in Filament v5 with read-only enquiry
+> details, trip of interest, and status management. Include Mark as Read
+> and Mark as Replied actions. No create or delete — enquiries come from
+> the public contact form only."
+
+**What I accepted:** Overall structure, status badge colours,
+Mark as Read/Replied actions with notifications.
+
+**What I changed:**
+
+- Added EnquirySeeder — was missing from original seeder list
+- Added eager loading for trip relationship via getEloquentQuery()
+- Used formatStateUsing() for trip title field instead of
+  dot notation which doesn't work in edit forms
+- Added columnSpanFull() to all sections to fix half-width rendering
+- Added default '—' to trip.title table column for enquiries
+  without a trip of interest
 
 ---
 
