@@ -168,6 +168,21 @@ Overall layout structure, colour palette application, card component patterns, a
 - **Filament v5 namespaces:** AI initially suggested `Filament\Forms\Components\Section` — correct namespace in v5 is `Filament\Schemas\Components\Section`
 - **Deprecated methods:** `imageResizeMode()` and `imageCropAspectRatio()` are deprecated in Filament v5 — replaced with `automaticallyResizeImagesMode()`
 - **navigationGroup type:** AI suggested `?string` type — v5 requires `string|\UnitEnum|null` or no type hint
+- **column-size:** AI suggested `column(2)` which make it look like form take less than half space . Change it to `columnSpanFull()` so it looks bigger.
+
+---
+
+**Prompt 7 — PackageResource:**
+
+> "I am using Filament v5 with Laravel. Create a PackageResource inside app/Filament/Resources/Packages/ directory with PackageInclusionsRelationManager. Include form fields for trip_id, tier, title, price_usd, is_popular, is_active, description. Table with tier badges (standard=gray, premium=warning, luxury=success) and inclusion/exclusion badges (inclusion=success, exclusion=danger)."
+
+**What I accepted:** Overall structure, badge colours, relation manager pattern, filter setup.
+
+**What I changed:**
+
+- Added `->columnSpanFull()` to Section in PackageInclusionsRelationManager — form was rendering half width
+- Added `->defaultSort('created_at', 'desc')` to table — newest packages appear first
+- Fixed navigationIcon to use `Heroicon::OutlinedCube` enum instead of string `'heroicon-o-cube'` — consistent with Filament v5 pattern used in other resources
 
 ---
 
