@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Trip extends Model
 {
@@ -36,6 +38,54 @@ class Trip extends Model
         'requires_bike' => 'boolean',
         'bike_rental_available' => 'boolean',
     ];
+
+
+    // Relationships
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function itineraryDays(): HasMany
+    {
+        return $this->hasMany(ItineraryDay::class)->orderBy('day_number');
+    }
+
+    public function attractions(): HasMany
+    {
+        return $this->hasMany(TripAttraction::class)->orderBy('sort_order');
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(TripImage::class)->orderBy('sort_order');
+    }
+
+    public function faqs(): HasMany
+    {
+        return $this->hasMany(TripFaq::class)->orderBy('sort_order');
+    }
+
+    public function bikeRentals(): HasMany
+    {
+        return $this->hasMany(BikeRental::class)->orderBy('sort_order');
+    }
+
+    public function packages(): HasMany
+    {
+        return $this->hasMany(Package::class)
+            ->orderByRaw("CASE tier WHEN 'standard' THEN 1 WHEN 'premium' THEN 2 WHEN 'luxury' THEN 3 ELSE 4 END");
+    }
+
+    public function testimonials(): HasMany
+    {
+        return $this->hasMany(Testimonial::class)->latest();
+    }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class)->latest();
+    }
 
     // Scopes
     public function scopeActive(Builder $query): Builder
@@ -108,53 +158,6 @@ class Trip extends Model
             ->firstOrFail();
     }
 
-    // Relationships
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function itineraryDays(): HasMany
-    {
-        return $this->hasMany(ItineraryDay::class)->orderBy('day_number');
-    }
-
-    public function attractions(): HasMany
-    {
-        return $this->hasMany(TripAttraction::class)->orderBy('sort_order');
-    }
-
-    public function images(): HasMany
-    {
-        return $this->hasMany(TripImage::class)->orderBy('sort_order');
-    }
-
-    public function faqs(): HasMany
-    {
-        return $this->hasMany(TripFaq::class)->orderBy('sort_order');
-    }
-
-    public function bikeRentals(): HasMany
-    {
-        return $this->hasMany(BikeRental::class)->orderBy('sort_order');
-    }
-
-    public function packages(): HasMany
-    {
-        return $this->hasMany(Package::class)
-            ->orderByRaw("CASE tier WHEN 'standard' THEN 1 WHEN 'premium' THEN 2 WHEN 'luxury' THEN 3 ELSE 4 END");
-    }
-
-    public function testimonials(): HasMany
-    {
-        return $this->hasMany(Testimonial::class)->latest();
-    }
-
-    public function bookings(): HasMany
-    {
-        return $this->hasMany(Booking::class)->latest();
-    }
-
     // Accessor
     public function getStartingPriceAttribute(): ?float
     {
@@ -171,5 +174,36 @@ class Trip extends Model
             ->min('price_usd');
 
         return $minimum !== null ? (float) $minimum : null;
+    }
+    // UI Accessors
+
+    public function getImageUrlAttribute(): string
+    {
+        return Str::startsWith($this->cover_image, ['http://', 'https://'])
+            ? $this->cover_image
+            : Storage::url($this->cover_image);
+    }
+
+    public function getDifficultyBadgeAttribute(): string
+    {
+        return match ($this->difficulty) {
+            'easy' => 'bg-emerald-100 text-emerald-700 ring-emerald-200',
+            'moderate' => 'bg-amber-100 text-amber-700 ring-amber-200',
+            'challenging' => 'bg-orange-100 text-orange-700 ring-orange-200',
+            'extreme' => 'bg-red-100 text-red-700 ring-red-200',
+            default => 'bg-zinc-100 text-zinc-700 ring-zinc-200',
+        };
+    }
+
+    public function getFormattedPriceAttribute(): ?string
+    {
+        return $this->starting_price
+            ? number_format($this->starting_price, 0)
+            : null;
+    }
+
+    public function getDifficultyLabelAttribute(): string
+    {
+        return ucfirst($this->difficulty);
     }
 }
