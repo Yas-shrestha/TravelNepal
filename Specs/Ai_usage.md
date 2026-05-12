@@ -306,6 +306,40 @@ packages ordered standard → premium → luxury, tests written.
 
 ---
 
+**Prompt 13 — Frontend pages and Livewire components:**
+
+> "Build all public pages for TravelNepal using Laravel Blade +
+> Livewire Volt single-file components. Reference UI designs in
+> Design/GoogleAiStudio/. Include homepage, trip listing, trip detail,
+
+<!-- removed it after use to optimize storage -->
+
+> about, faq, contact pages. Build BookingPopup, TripListing,
+> ContactForm, SubmitTripReview as Volt components. Match design
+> system: green #1a3a2a, ochre #c8860a, beige #f5f0e8."
+
+**What I accepted:** Overall page structure, Volt component patterns,
+responsive grid layouts, Alpine.js carousel and accordion.
+
+**What I changed:**
+
+- Fixed navbar transparent/blur effect — hero must sit behind navbar
+  at top:0, navbar position:fixed z-50
+- Converted all Livewire components to Volt single-file format
+- Fixed testimonials carousel using Alpine.js with proper
+  auto-advance, pause on hover, and dot navigation
+- Used UI Avatars API for testimonial avatars instead of
+  plain text initials
+- Fixed difficulty badge colours: easy=green, moderate=yellow,
+  challenging=orange, extreme=red
+- Fixed Book Now button padding — was missing px-6 py-3
+- Added overflow-x-auto to package comparison table for mobile
+- Fixed section backgrounds to alternate properly
+- Added Storage::url() fallback for Unsplash URLs in cover images
+- Cleaned up unused files: old Livewire class files, welcome.blade.php
+
+---
+
 ## Reflection (Updated as project progresses)
 
 ### Where AI helped most

@@ -17,6 +17,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Kathmandu to Mustang Motorbike Expedition',
                 'category_slug' => 'motorbike-tours',
+                'cover_image' => 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800',
                 'difficulty' => 'challenging',
                 'duration_days' => 12,
                 'max_altitude_m' => null,
@@ -34,6 +35,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Everest Highway Royal Enfield Ride',
                 'category_slug' => 'motorbike-tours',
+                'cover_image' => 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=800',
                 'difficulty' => 'moderate',
                 'duration_days' => 10,
                 'max_altitude_m' => null,
@@ -51,6 +53,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Nepal Himalaya Circuit by Motorbike',
                 'category_slug' => 'motorbike-tours',
+                'cover_image' => 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
                 'difficulty' => 'extreme',
                 'duration_days' => 18,
                 'max_altitude_m' => null,
@@ -68,6 +71,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Everest Base Camp Trek',
                 'category_slug' => 'trekking',
+                'cover_image' => 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800',
                 'difficulty' => 'challenging',
                 'duration_days' => 14,
                 'max_altitude_m' => 5545,
@@ -85,6 +89,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Annapurna Circuit Trek',
                 'category_slug' => 'trekking',
+                'cover_image' => 'https://images.unsplash.com/photo-1494548162494-384bba4ab999?w=800',
                 'difficulty' => 'challenging',
                 'duration_days' => 18,
                 'max_altitude_m' => 5416,
@@ -102,6 +107,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Langtang Valley Trek',
                 'category_slug' => 'trekking',
+                'cover_image' => 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800',
                 'difficulty' => 'moderate',
                 'duration_days' => 10,
                 'max_altitude_m' => 4984,
@@ -119,6 +125,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Manaslu Circuit Trek',
                 'category_slug' => 'trekking',
+                'cover_image' => 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=800',
                 'difficulty' => 'extreme',
                 'duration_days' => 16,
                 'max_altitude_m' => 5160,
@@ -136,6 +143,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Kathmandu Valley Cycling Tour',
                 'category_slug' => 'cycling',
+                'cover_image' => 'https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=800',
                 'difficulty' => 'easy',
                 'duration_days' => 5,
                 'max_altitude_m' => null,
@@ -153,6 +161,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Pokhara to Chitwan Cycling Adventure',
                 'category_slug' => 'cycling',
+                'cover_image' => 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800',
                 'difficulty' => 'moderate',
                 'duration_days' => 7,
                 'max_altitude_m' => null,
@@ -170,6 +179,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Upper Mustang Cultural Tour',
                 'category_slug' => 'cultural-tours',
+                'cover_image' => 'https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=800',
                 'difficulty' => 'moderate',
                 'duration_days' => 12,
                 'max_altitude_m' => null,
@@ -187,6 +197,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Kathmandu Heritage Valley Tour',
                 'category_slug' => 'cultural-tours',
+                'cover_image' => 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800',
                 'difficulty' => 'easy',
                 'duration_days' => 4,
                 'max_altitude_m' => null,
@@ -204,6 +215,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Nagarkot Sunrise Hike',
                 'category_slug' => 'hikes',
+                'cover_image' => 'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=800',
                 'difficulty' => 'easy',
                 'duration_days' => 1,
                 'max_altitude_m' => 2175,
@@ -221,6 +233,7 @@ class TripSeeder extends Seeder
             [
                 'title' => 'Poon Hill Hike',
                 'category_slug' => 'hikes',
+                'cover_image' => 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800',
                 'difficulty' => 'easy',
                 'duration_days' => 4,
                 'max_altitude_m' => 3210,
@@ -255,7 +268,7 @@ class TripSeeder extends Seeder
                     'best_season' => $row['best_season'],
                     'overview' => $row['overview'],
                     'highlights' => $row['highlights'],
-                    'cover_image' => 'trips/covers/default.jpg',
+                    'cover_image' => $row['cover_image'],
                     'is_featured' => $index < 6,
                     'is_active' => true,
                     'requires_bike' => $isMotorbike,
