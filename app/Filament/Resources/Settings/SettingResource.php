@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class SettingResource extends Resource
 {
@@ -32,6 +33,20 @@ class SettingResource extends Resource
         return SettingsTable::configure($table);
     }
 
+    public static function canCreate(): bool
+    {
+        return Auth::user()?->role === 'super_admin';
+    }
+
+    public static function canDelete($record): bool
+    {
+        return Auth::user()?->role === 'super_admin';
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return Auth::user()?->role === 'super_admin';
+    }
     public static function getRelations(): array
     {
         return [

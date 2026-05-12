@@ -7,6 +7,8 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Actions\DeleteAction;
+use Illuminate\Support\Facades\Auth;
 
 class SettingsTable
 {
@@ -32,10 +34,13 @@ class SettingsTable
             ])
             ->recordActions([
                 EditAction::make(),
+                DeleteAction::make()
+                    ->visible(fn(): bool => Auth::user()?->role === 'super_admin'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->visible(fn(): bool => Auth::user()?->role === 'super_admin'),
                 ]),
             ]);
     }
