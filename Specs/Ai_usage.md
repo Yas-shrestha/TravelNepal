@@ -265,6 +265,47 @@ Mark as Read/Replied actions with notifications.
 
 ---
 
+**Prompt 11 — FaqResource, TestimonialResource, SettingResource:**
+
+> "Create FaqResource, TestimonialResource and SettingResource in
+> Filament v5. FaqResource ordered by sort_order. TestimonialResource
+> with approve/unapprove actions. SettingResource with role-based
+> permissions — super admin can create/delete/edit key and group,
+> content manager can only edit value."
+
+**What I accepted:** Overall structure, approve/unapprove actions,
+badge colours for rating and group.
+
+**What I changed:**
+
+- Changed sort_order default from 0 to 1 across all resources
+- Added canCreate(), canDelete(), canDeleteAny() to SettingResource
+  for role-based access control
+- Added Auth::user() checks to hide New/Delete buttons from
+  content managers on frontend
+- Disabled key and group fields for content managers in SettingForm
+  using ->disabled() and ->dehydrated()
+- Added 'seo' and 'other' options to group dropdown
+
+---
+
+**Prompt 12 — N+1 Query fixes:**
+
+> "Review the entire TravelNepal Laravel application for N+1 query
+> problems and fix them all. Add eager loading to all Filament resources,
+> add findBySlug(), scopeFeaturedWithRelations(), scopeForListing(),
+> scopeWithEagerLoading() to Trip model."
+
+**What I accepted:** All scopes and eager loading additions,
+packages ordered standard → premium → luxury, tests written.
+
+**What I changed:**
+
+- Added ->active() scope to findBySlug() — Cursor missed this,
+  inactive trips should return 404 on public URLs not load the page
+
+---
+
 ## Reflection (Updated as project progresses)
 
 ### Where AI helped most
