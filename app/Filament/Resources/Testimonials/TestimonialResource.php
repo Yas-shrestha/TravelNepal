@@ -13,14 +13,19 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use UnitEnum;
 
 class TestimonialResource extends Resource
 {
     protected static ?string $model = Testimonial::class;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleLeftRight;
+
     protected static string|UnitEnum|null $navigationGroup = 'Content';
+
     protected static ?int $navigationSort = 2;
+
     protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Schema $schema): Schema
@@ -33,6 +38,12 @@ class TestimonialResource extends Resource
         return TestimonialsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with(['trip']);
+    }
+
     public static function getRelations(): array
     {
         return [];
@@ -41,9 +52,9 @@ class TestimonialResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListTestimonials::route('/'),
+            'index' => ListTestimonials::route('/'),
             'create' => CreateTestimonial::route('/create'),
-            'edit'   => EditTestimonial::route('/{record}/edit'),
+            'edit' => EditTestimonial::route('/{record}/edit'),
         ];
     }
 }

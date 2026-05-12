@@ -12,9 +12,10 @@ use App\Models\Package;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Tables\Table;
-use UnitEnum;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use UnitEnum;
 
 class PackageResource extends Resource
 {
@@ -36,6 +37,12 @@ class PackageResource extends Resource
     public static function table(Table $table): Table
     {
         return PackagesTable::configure($table);
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with(['trip']);
     }
 
     public static function getRelations(): array

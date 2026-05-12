@@ -23,7 +23,7 @@ class PackagesTable
 
                 TextColumn::make('tier')
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'standard' => 'gray',
                         'premium' => 'warning',
                         'luxury' => 'success',
@@ -63,6 +63,6 @@ class PackagesTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('created_at', 'desc');;
+            ->defaultSort('created_at', 'desc');
     }
 }
