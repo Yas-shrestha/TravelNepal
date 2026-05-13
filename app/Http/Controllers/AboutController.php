@@ -15,7 +15,14 @@ class AboutController extends Controller
             ['name' => 'Rohan Lama', 'role' => 'Cultural Trip Specialist', 'bio' => 'Heritage storyteller connecting travellers with temples, festivals, and living traditions.'],
         ];
 
+        $values = [
+            ['title' => 'Sustainability', 'text' => 'Responsible routes and local partnerships that protect mountain ecosystems.'],
+            ['title' => 'Safety First', 'text' => 'Proven operating standards, qualified guides, and emergency readiness.'],
+            ['title' => 'Authentic Experiences', 'text' => 'Real local encounters beyond generic tourist itineraries.'],
+            ['title' => 'Community', 'text' => 'We work with local hosts, drivers, porters, and small businesses.'],
+        ];
         return view('pages.about', [
+            'values'    => $values,
             'persons'   => $persons,
             'metaTitle'       => "About Us | TravelNepal",
             'metaDescription' => "Meet the passionate team behind TravelNepal, dedicated to crafting unforgettable journeys through the Himalayas.",

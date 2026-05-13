@@ -38,12 +38,7 @@
             <p class="tn-section-subtitle">Principles we refuse to compromise on — every season.</p>
         </div>
         <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-            @foreach ([
-            ['title' => 'Sustainability', 'text' => 'Responsible routes and local partnerships that protect mountain ecosystems.'],
-            ['title' => 'Safety First', 'text' => 'Proven operating standards, qualified guides, and emergency readiness.'],
-            ['title' => 'Authentic Experiences', 'text' => 'Real local encounters beyond generic tourist itineraries.'],
-            ['title' => 'Community', 'text' => 'We work with local hosts, drivers, porters, and small businesses.'],
-            ] as $value)
+            @foreach ($values as $value)
             <div class="rounded-2xl border border-white/10 bg-white/5 p-6 transition duration-300 hover:-translate-y-1">
                 <svg class="h-10 w-10 text-adventure-ochre" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
