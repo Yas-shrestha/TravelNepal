@@ -335,17 +335,20 @@ $hasActiveFilters = $category !== '' || $difficulty !== '' || $duration !== '';
                                 @endif
                             </p>
 
-                            <div class="mt-4 flex w-full gap-2">
+                            <div class="mt-4 flex items-center gap-2">
+
                                 <a href="{{ route('trips.show', $trip->slug) }}"
-                                    class="tn-btn-secondary flex-1 justify-center">
-                                    View Trip
+                                    class="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-center text-sm font-medium text-gray-700 transition hover:bg-white hover:text-[#1a3a2a] hover:border-[#1a3a2a]">
+                                    View Details
                                 </a>
+
                                 <button
                                     type="button"
                                     x-on:click="Livewire.dispatch('open-booking-popup', { tripId: {{ $trip->id }} })"
-                                    class="tn-btn-primary flex-1 justify-center">
+                                    class="tn-btn-primary flex-1 justify-center rounded-lg px-3 py-2 text-sm">
                                     Book Now
                                 </button>
+
                             </div>
                         </div>
 
