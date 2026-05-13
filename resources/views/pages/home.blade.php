@@ -259,19 +259,13 @@
                     :style="{ transform: 'translateX(' + tx() + 'px)', transition: 'transform 0.4s ease' }"
                     x-ref="track">
                     @foreach ($testimonials as $testimonial)
-                    @php
-                    $avatarUrl = $testimonial->avatar
-                    ? (Illuminate\Support\Str::startsWith($testimonial->avatar, ['http://', 'https://'])
-                    ? $testimonial->avatar
-                    : Storage::url($testimonial->avatar))
-                    : 'https://ui-avatars.com/api/?name='.urlencode($testimonial->name).'&background=1a3a2a&color=c8860a&size=80&bold=true';
-                    @endphp
+
                     <article
                         class="flex shrink-0 flex-col rounded-xl bg-white p-8 shadow-md"
                         :style="{ width: cardWidth + 'px', minWidth: cardWidth + 'px' }">
                         <div class="flex flex-row items-start gap-4">
                             <img
-                                src="{{ $avatarUrl }}"
+                                src="{{ $testimonial->avatar_url }}"
                                 alt="{{ $testimonial->name }}"
                                 class="h-16 w-16 shrink-0 rounded-full object-cover"
                                 width="64" height="64" />
