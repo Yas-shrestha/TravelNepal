@@ -76,7 +76,7 @@ new class extends Component
             'name'           => ['required', 'string', 'max:255'],
             'email'          => ['required', 'email', 'max:255'],
             'phone'          => ['required', 'string', 'max:50'],
-            'preferred_date' => ['required', 'date', 'after_or_equal:today'],
+            'preferred_date' => ['required', 'date', 'after_or_equal:today' . now()->addWeek()->toDateString()],
             'group_size'     => ['required', 'integer', 'min:1', 'max:50'],
             'message'        => ['nullable', 'string', 'max:2000'],
         ];

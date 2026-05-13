@@ -110,9 +110,13 @@ class TripForm
                     ->schema([
                         FileUpload::make('cover_image')
                             ->image()
-                            ->required()
+                            ->disk('public')
                             ->directory('trips/covers')
+                            ->automaticallyCropImagesToAspectRatio('16:9')
                             ->automaticallyResizeImagesMode('cover')
+                            ->automaticallyResizeImagesToWidth('1600')
+                            ->automaticallyResizeImagesToHeight('900')
+                            ->required()
                             ->columnSpanFull(),
                     ]),
 

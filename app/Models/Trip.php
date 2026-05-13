@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+
 
 class Trip extends Model
 {
@@ -167,16 +169,22 @@ class Trip extends Model
         return $minimum !== null ? (float) $minimum : null;
     }
     // UI Accessors
-
     public function getImageUrlAttribute(): string
     {
         if (!$this->cover_image) {
             return 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80';
         }
 
-        return Str::startsWith($this->cover_image, ['http://', 'https://'])
-            ? $this->cover_image
-            : Storage::url($this->cover_image);
+        if (Str::startsWith($this->cover_image, ['http://', 'https://'])) {
+            return $this->cover_image;
+        }
+
+        $url = Storage::url($this->cover_image);
+
+        // Debug: Log or dump the URL
+        Log::info('Image URL: ' . $url);
+
+        return $url;
     }
 
 
