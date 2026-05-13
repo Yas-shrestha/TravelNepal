@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TripController;
@@ -11,10 +12,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Volt::route('/trips', 'trip-listing')->name('trips.index');
 
 Route::get('/trips/{slug}', [TripController::class, 'show'])->name('trips.show');
-Route::view('/about', 'pages.about', [
-    'metaTitle' => 'About Us | TravelNepal',
-    'metaDescription' => "Learn about TravelNepal, Nepal's home for adventure experiences.",
-])->name('about');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::view('/contact', 'pages.contact', [
     'metaTitle' => 'Contact | TravelNepal',
@@ -33,4 +31,4 @@ Route::middleware(['auth'])->group(function (): void {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
