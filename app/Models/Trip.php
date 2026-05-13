@@ -145,16 +145,7 @@ class Trip extends Model
         return static::query()
             ->active()
             ->where('slug', $slug)
-            ->with([
-                'category',
-                'itineraryDays' => fn($q) => $q->orderBy('day_number'),
-                'attractions' => fn($q) => $q->orderBy('sort_order'),
-                'images' => fn($q) => $q->orderBy('sort_order'),
-                'faqs' => fn($q) => $q->orderBy('sort_order'),
-                'packages' => fn($q) => $q->where('is_active', true)->with('inclusions'),
-                'testimonials' => fn($q) => $q->where('is_approved', true)->latest()->take(3),
-                'bikeRentals' => fn($q) => $q->where('is_available', true)->orderBy('sort_order'),
-            ])
+            ->withEagerLoading()
             ->firstOrFail();
     }
 
@@ -179,10 +170,15 @@ class Trip extends Model
 
     public function getImageUrlAttribute(): string
     {
+        if (!$this->cover_image) {
+            return 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80';
+        }
+
         return Str::startsWith($this->cover_image, ['http://', 'https://'])
             ? $this->cover_image
             : Storage::url($this->cover_image);
     }
+
 
     public function getDifficultyBadgeAttribute(): string
     {

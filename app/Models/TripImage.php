@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 class TripImage extends Model
 {
@@ -21,5 +24,15 @@ class TripImage extends Model
     public function trip(): BelongsTo
     {
         return $this->belongsTo(Trip::class);
+    }
+    public function getImageUrlAttribute(): string
+    {
+        if (!$this->image_path) {
+            return 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=800&q=80';
+        }
+
+        return Str::startsWith($this->image_path, ['http://', 'https://'])
+            ? $this->image_path
+            : Storage::url($this->image_path);
     }
 }
