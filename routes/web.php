@@ -8,27 +8,13 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
-Volt::route('/trips', 'trip-listing')->name('trips.index');
-
 Route::get('/trips/{slug}', [TripController::class, 'show'])->name('trips.show');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+
+Volt::route('/trips', 'trip-listing')->name('trips.index');
+
 Route::view('/contact', 'pages.contact', [
-    'metaTitle' => 'Contact | TravelNepal',
+    'metaTitle'       => 'Contact | TravelNepal',
     'metaDescription' => 'Contact TravelNepal for enquiries, custom plans, and trip support.',
 ])->name('contact');
-
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Route::middleware(['auth'])->group(function (): void {
-    Route::redirect('settings', 'settings/profile');
-
-    Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
-    Volt::route('settings/password', 'settings.password')->name('settings.password');
-    Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
-});
-
-require __DIR__ . '/auth.php';
