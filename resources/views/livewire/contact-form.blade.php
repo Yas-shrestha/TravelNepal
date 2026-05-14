@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Trip;
+use App\Models\Enquiry;
 use App\Jobs\ProcessEnquiry;
 use Livewire\Volt\Component;
 
@@ -16,25 +17,23 @@ new class extends Component
     public function submit(): void
     {
         $validated = $this->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:50'],
+            'name'    => ['required', 'string', 'max:255'],
+            'email'   => ['required', 'email', 'max:255'],
+            'phone'   => ['nullable', 'string', 'max:50'],
             'subject' => ['required', 'string', 'max:120'],
             'trip_id' => ['nullable', 'exists:trips,id'],
             'message' => ['required', 'string', 'min:10'],
         ]);
 
-        // Dispatch background job
-        ProcessEnquiry::dispatch(array_merge($validated, [
-            'status' => 'unread',
-        ]));
+        $enquiry = Enquiry::create(array_merge($validated, ['status' => 'unread']));
+
+        ProcessEnquiry::dispatch($enquiry);  // pass the model
 
         $this->reset(['name', 'email', 'phone', 'trip_id', 'message']);
         $this->subject = 'General Enquiry';
 
         session()->flash('contact_success', 'Your enquiry has been sent. We will get back to you shortly.');
     }
-
     public function with(): array
     {
         return [
@@ -105,4 +104,4 @@ new class extends Component
             <span wire:loading wire:target="submit">Sending...</span>
         </button>
     </form>
-</div>  
+</div>

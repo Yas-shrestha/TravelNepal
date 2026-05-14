@@ -15,30 +15,23 @@ class ProcessEnquiry implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public array $data) {}
+    public function __construct(public readonly Enquiry $enquiry) {}  // pass model, not array
 
     public function handle(): void
     {
-        // 1. Create the Enquiry record
-        $enquiry = Enquiry::create($this->data);
-
-        // Load trip relationship for the email
-        $enquiry->load('trip');
+        $this->enquiry->load('trip');
 
         try {
-            // 2. Email to the Customer
-            Mail::raw("Hi {$enquiry->name},\n\nThank you for reaching out to TravelNepal! We have received your message regarding '{$enquiry->subject}'.\n\n"
-                . "Our team will review your enquiry and get back to you shortly.\n\nBest regards,\nTravelNepal Team", function ($message) use ($enquiry) {
-                $message->to($enquiry->email)
-                    ->subject('Enquiry Received - TravelNepal');
-            });
+            Mail::raw(
+                "Hi {$this->enquiry->name},\n\nThank you for reaching out to TravelNepal! We have received your message regarding '{$this->enquiry->subject}'.\n\nOur team will review your enquiry and get back to you shortly.\n\nBest regards,\nTravelNepal Team",
+                fn($message) => $message->to($this->enquiry->email)->subject('Enquiry Received - TravelNepal')
+            );
 
-            // 3. Email to the Admin (Optional: You can use a Mailable here too)
             $adminEmail = config('mail.from.address');
-            Mail::raw("New Enquiry Received:\n\nName: {$enquiry->name}\nEmail: {$enquiry->email}\nSubject: {$enquiry->subject}\nTrip: " . ($enquiry->trip->title ?? 'None') . "\nMessage: {$enquiry->message}", function ($message) use ($enquiry, $adminEmail) {
-                $message->to($adminEmail)
-                    ->subject('New Website Enquiry: ' . $enquiry->subject);
-            });
+            Mail::raw(
+                "New Enquiry Received:\n\nName: {$this->enquiry->name}\nEmail: {$this->enquiry->email}\nSubject: {$this->enquiry->subject}\nTrip: " . ($this->enquiry->trip->title ?? 'None') . "\nMessage: {$this->enquiry->message}",
+                fn($message) => $message->to($adminEmail)->subject('New Website Enquiry: ' . $this->enquiry->subject)
+            );
         } catch (\Exception $e) {
             Log::error("Enquiry Job Email Failed: " . $e->getMessage());
         }

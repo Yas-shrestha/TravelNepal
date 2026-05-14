@@ -17,43 +17,35 @@ class ProcessBooking implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     */
     public function __construct(
-        public array $data
+        public readonly Booking $booking  // ✅ model instead of array
     ) {}
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
-        // 1. Save the booking to the database
-        $booking = Booking::create($this->data);
+        // ✅ No Booking::create() here anymore — already saved in submit()
 
-        // 2. Eager Load relationships to avoid any extra queries in the email view
-        // This is where you prevent that "Lazy Loading" query
-        $booking->load(['trip', 'package']);
+        // Eager load relationships for the email
+        $this->booking->load(['trip', 'package']);
 
         try {
-            // 3. Send Customer Email
+            // Send Customer Email
             Mail::raw(
-                "Hi {$booking->name},\n\n" .
-                    "Thank you for booking the '{$booking->trip->title}' adventure with TravelNepal!\n\n" .
-                    "We have received your request for {$booking->preferred_date} and our team is currently reviewing the details. " .
+                "Hi {$this->booking->name},\n\n" .
+                    "Thank you for booking the '{$this->booking->trip->title}' adventure with TravelNepal!\n\n" .
+                    "We have received your request for {$this->booking->preferred_date} and our team is currently reviewing the details. " .
                     "We will contact you via phone or email within the next 24 hours to finalize your itinerary.\n\n" .
                     "Safe travels,\n" .
                     "The TravelNepal Team",
-                function ($message) use ($booking) {
-                    $message->to($booking->email)
-                        ->subject('Booking Received - ' . $booking->trip->title);
+                function ($message) {
+                    $message->to($this->booking->email)
+                        ->subject('Booking Received - ' . $this->booking->trip->title);
                 }
             );
 
-            // 4. Send Admin Email (The Mailable)
+            // Send Admin Email
             $adminEmail = config('mail.from.address') ?? env('MAIL_USERNAME');
-            Mail::to($adminEmail)->send(new NewBookingNotification($booking));
+            Mail::to($adminEmail)->send(new NewBookingNotification($this->booking));
         } catch (Exception $e) {
             Log::error("Booking Job Email Failed: " . $e->getMessage());
         }

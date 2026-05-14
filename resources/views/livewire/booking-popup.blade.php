@@ -76,7 +76,7 @@ new class extends Component
             'name'           => ['required', 'string', 'max:255'],
             'email'          => ['required', 'email', 'max:255'],
             'phone'          => ['required', 'string', 'max:50'],
-            'preferred_date' => ['required', 'date', 'after_or_equal:today' . now()->addWeek()->toDateString()],
+            'preferred_date' => ['required', 'date', 'after_or_equal:' . now()->addWeek()->toDateString()],
             'group_size'     => ['required', 'integer', 'min:1', 'max:50'],
             'message'        => ['nullable', 'string', 'max:2000'],
         ];
@@ -103,34 +103,42 @@ new class extends Component
             return;
         }
 
-        $path = $this->license_image ? $this->license_image->store('licenses', 'public') : null;
+        $path = $this->license_image
+            ? $this->license_image->store('licenses', 'public')
+            : null;
 
         $rentalCost = null;
         if ($hasOwnBike === false && $this->rental_bike_id && $trip) {
             $bike = BikeRental::find($this->rental_bike_id);
-            if ($bike) $rentalCost = round((float)$bike->price_per_day_usd * (int)$trip->duration_days, 2);
+            if ($bike) {
+                $rentalCost = round((float) $bike->price_per_day_usd * (int) $trip->duration_days, 2);
+            }
         }
 
-        ProcessBooking::dispatch([
-            'trip_id'          => $this->trip_id,
-            'package_id'       => $this->package_id,
-            'rental_bike_id'   => ($hasOwnBike === false) ? $this->rental_bike_id : null,
-            'name'             => $this->name,
-            'email'            => $this->email,
-            'phone'            => $this->phone,
-            'preferred_date'   => $this->preferred_date,
-            'group_size'       => $this->group_size,
-            'message'          => $this->message,
-            'has_own_bike'     => $hasOwnBike,
-            'own_bike_model'   => $this->own_bike_model,
-            'rental_cost_usd'  => $rentalCost,
-            'has_license'      => $hasLicense,
-            'license_number'   => $this->license_number,
-            'license_country'  => $this->license_country,
-            'license_type'     => $this->license_type,
-            'license_image'    => $path,
-            'status'           => 'pending',
+        // ✅ Save synchronously — guaranteed to persist regardless of queue
+        $booking = Booking::create([
+            'trip_id'         => $this->trip_id,
+            'package_id'      => $this->package_id,
+            'rental_bike_id'  => ($hasOwnBike === false) ? $this->rental_bike_id : null,
+            'name'            => $this->name,
+            'email'           => $this->email,
+            'phone'           => $this->phone,
+            'preferred_date'  => $this->preferred_date,
+            'group_size'      => $this->group_size,
+            'message'         => $this->message,
+            'has_own_bike'    => $hasOwnBike,
+            'own_bike_model'  => $this->own_bike_model,
+            'rental_cost_usd' => $rentalCost,
+            'has_license'     => $hasLicense,
+            'license_number'  => $this->license_number,
+            'license_country' => $this->license_country,
+            'license_type'    => $this->license_type,
+            'license_image'   => $path,
+            'status'          => 'pending',
         ]);
+
+        // ✅ Job only handles emails/notifications now
+        ProcessBooking::dispatch($booking);
 
         $this->reset([
             'name',
@@ -143,8 +151,9 @@ new class extends Component
             'has_license',
             'has_own_bike',
             'own_bike_model',
-            'rental_bike_id'
+            'rental_bike_id',
         ]);
+
         session()->flash('booking_success', "Request received! We'll contact you shortly.");
     }
 
