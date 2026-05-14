@@ -55,6 +55,9 @@ php artisan serve
 
 ---
 
+note:please add mail crediential for mailer to work
+
+
 ## Admin Panel
 
 Access the admin panel at `/admin`
