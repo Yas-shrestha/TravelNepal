@@ -271,11 +271,9 @@
 
     <button
         type="button"
-        x-show="pastHero"
-        x-transition
         x-on:click="Livewire.dispatch('open-booking-popup', { tripId: {{ $trip->id }} })"
-        class="fixed bottom- right-[100%] z-40 max-w-[calc(100vw-2rem)] truncate rounded-full bg-[#c8860a] px-5 py-3 text-center font-sans text-xs font-semibold uppercase tracking-wide text-white shadow-lg transition hover:brightness-110 sm:text-sm md:bottom-6 md:right-5 md:max-w-none lg:hidden"
-        style="display: none;">1
+        class="lg:hidden z-40 truncate rounded-full bg-[#c8860a] px-5 py-3 text-center font-sans text-xs font-semibold uppercase tracking-wide text-white shadow-lg transition hover:brightness-110 sm:text-sm"
+        style="position: fixed !important; bottom: 24px !important; left: 20px !important; top: auto !important;">
         Book Now — from ${{ number_format((float) $trip->starting_price, 2) }}
     </button>
 </div>
