@@ -17,6 +17,7 @@ class PackageForm
             ->components([
                 Section::make('Package Information')
                     ->columns(2)
+                    ->columnSpanFull()
                     ->schema([
                         Select::make('trip_id')
                             ->relationship('trip', 'title')
@@ -33,8 +34,7 @@ class PackageForm
                             ->required(),
 
                         TextInput::make('title')
-                            ->required()
-                            ->columnSpanFull(),
+                            ->required(),
 
                         TextInput::make('price_usd')
                             ->numeric()
@@ -42,6 +42,10 @@ class PackageForm
                             ->prefix('$')
                             ->label('Price (USD)'),
 
+
+                        Textarea::make('description')
+                            ->nullable()
+                            ->columnSpanFull(),
                         Toggle::make('is_popular')
                             ->label('Mark as Most Popular')
                             ->default(false),
@@ -50,9 +54,6 @@ class PackageForm
                             ->label('Active')
                             ->default(true),
 
-                        Textarea::make('description')
-                            ->nullable()
-                            ->columnSpanFull(),
                     ]),
             ]);
     }
