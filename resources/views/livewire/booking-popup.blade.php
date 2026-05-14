@@ -115,30 +115,31 @@ new class extends Component
             }
         }
 
-        // ✅ Save synchronously — guaranteed to persist regardless of queue
+        // ✅ Create the Booking first, then pass the model to the job
         $booking = Booking::create([
-            'trip_id'         => $this->trip_id,
-            'package_id'      => $this->package_id,
-            'rental_bike_id'  => ($hasOwnBike === false) ? $this->rental_bike_id : null,
-            'name'            => $this->name,
-            'email'           => $this->email,
-            'phone'           => $this->phone,
-            'preferred_date'  => $this->preferred_date,
-            'group_size'      => $this->group_size,
-            'message'         => $this->message,
-            'has_own_bike'    => $hasOwnBike,
-            'own_bike_model'  => $this->own_bike_model,
-            'rental_cost_usd' => $rentalCost,
-            'has_license'     => $hasLicense,
-            'license_number'  => $this->license_number,
-            'license_country' => $this->license_country,
-            'license_type'    => $this->license_type,
-            'license_image'   => $path,
-            'status'          => 'pending',
+            'trip_id'          => $this->trip_id,
+            'package_id'       => $this->package_id,
+            'rental_bike_id'   => ($hasOwnBike === false) ? $this->rental_bike_id : null,
+            'name'             => $this->name,
+            'email'            => $this->email,
+            'phone'            => $this->phone,
+            'preferred_date'   => $this->preferred_date,
+            'group_size'       => $this->group_size,
+            'message'          => $this->message,
+            'has_own_bike'     => $hasOwnBike,
+            'own_bike_model'   => $this->own_bike_model,
+            'rental_cost_usd'  => $rentalCost,
+            'has_license'      => $hasLicense,
+            'license_number'   => $this->license_number,
+            'license_country'  => $this->license_country,
+            'license_type'     => $this->license_type,
+            'license_image'    => $path,
+            'status'           => 'pending',
         ]);
 
-        // ✅ Job only handles emails/notifications now
+        // ✅ Pass model not array — matches job constructor
         ProcessBooking::dispatch($booking);
+
 
         $this->reset([
             'name',

@@ -45,7 +45,7 @@ class ProcessBooking implements ShouldQueue
 
             // Send Admin Email
             $adminEmail = config('mail.from.address') ?? env('MAIL_USERNAME');
-            Mail::to($adminEmail)->send(new NewBookingNotification($this->booking));
+            Mail::to($adminEmail)->queue(new NewBookingNotification($this->booking));
         } catch (Exception $e) {
             Log::error("Booking Job Email Failed: " . $e->getMessage());
         }
